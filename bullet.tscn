@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://cls2r422jxqsv"]
+
+[ext_resource type="Texture2D" uid="uid://bfpjrkp0g7aul" path="res://art/bullet.png" id="1_vbf3t"]
+
+[sub_resource type="GDScript" id="GDScript_6dx0g"]
+script/source = "extends Area2D
+
+@onready var player = get_node(\"../player\")
+
+var dir_lock = false
+
+var travelled_distance = 0
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta):
+	const SPEED = 300
+	const RANGE = 400
+	
+	var direction = self.rotation
+	
+	if player and not dir_lock:
+		var player_position = player.global_position
+		direction = player_position - global_position
+		direction = direction.normalized()
+		direction.x *= -1
+		direction.y *= -1
+		
+		position += direction * SPEED * delta
+		
+		travelled_distance += SPEED * delta
+		if travelled_distance > RANGE:
+			queue_free()
+	else:
+		print(\"player not found\")
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j4p8h"]
+radius = 3.0
+
+[node name="Bullet" type="Area2D"]
+collision_layer = 2
+collision_mask = 6
+script = SubResource("GDScript_6dx0g")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_vbf3t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_j4p8h")
+
+[node name="BulletDirection" type="Marker2D" parent="."]
+rotation = 0.37001

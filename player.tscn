@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://d2ch6i0cb7qvv"]
 
-[ext_resource type="Texture2D" uid="uid://s3ca411nm7yx" path="res://art/Dino.png" id="1_3lu0f"]
+[ext_resource type="Texture2D" uid="uid://s3ca411nm7yx" path="res://assets/art/Dino.png" id="1_3lu0f"]
 [ext_resource type="Script" path="res://player.gd" id="1_18rgw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eauo5"]
@@ -58,6 +58,7 @@ animations = [{
 size = Vector2(15, 15)
 
 [node name="player" type="CharacterBody2D"]
+collision_mask = 7
 script = ExtResource("1_18rgw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -66,7 +67,7 @@ sprite_frames = SubResource("SpriteFrames_vmo61")
 animation = &"move_down"
 frame_progress = 0.271962
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HurtBox" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_4vhrk")
 
@@ -74,3 +75,14 @@ shape = SubResource("RectangleShape2D_4vhrk")
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
+
+[node name="BulletSpawn" type="Marker2D" parent="."]
+position = Vector2(15, 0)
+
+[node name="ShotCooldown" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.33
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="ShotCooldown" to="." method="_on_shot_cooldown_timeout"]
