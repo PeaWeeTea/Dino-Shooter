@@ -1,68 +1,47 @@
 extends CharacterBody2D
 
-const BULLETPATH = preload("res://bullet.tscn")
-const fire_rate = 0.33
-const BULLET_SPAWN_DISTANCE = 15
-var shoot_ready = true
-var shot_direction = Vector2.ZERO
+signal bullet_shot(bullet_scene, location, direction)
 
-const SPEED = 100.0
-	
+const BULLET_SCENE = preload("res://bullet.tscn")
+const BULLET_SPAWN_DISTANCE = 10
+var shot_ready = true
+
+@export var speed = 100.0
 
 func _physics_process(delta):
-	velocity = Vector2.ZERO
-	shot_direction = Vector2.ZERO
+	var direction = Vector2(Input.get_axis("move_left", "move_right"),
+	Input.get_axis("move_up", "move_down"))
 	
-	if Input.is_action_pressed("move_right"):
+	if direction.x > 0:
 		$AnimatedSprite2D.play("move_right")
-		velocity.x += 1
-	if Input.is_action_pressed("move_left"):
+	elif direction.x < 0:
 		$AnimatedSprite2D.play("move_left")
-		velocity.x -= 1
-	if Input.is_action_pressed("move_down"):
+	elif direction.y > 0:
 		$AnimatedSprite2D.play("move_down")
-		velocity.y += 1
-	if Input.is_action_pressed("move_up"):
+	elif direction.y < 0:
 		$AnimatedSprite2D.play("move_up")
-		velocity.y -= 1
-	
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * SPEED
-	
+
+	velocity = direction.normalized() * speed
 	move_and_slide()
+
+func _process(delta):
+	var bullet_direction = Vector2(Input.get_axis("shoot_left", "shoot_right"),
+	Input.get_axis("shoot_up", "shoot_down"))
 	
-	
-	if Input.is_action_pressed("shoot_down"):
-		shot_direction.y += 1
-	if Input.is_action_pressed("shoot_up"):
-		shot_direction.y -= 1
-	if Input.is_action_pressed("shoot_left"):
-		shot_direction.x -= 1
-	if Input.is_action_pressed("shoot_right"):
-		shot_direction.x += 1
-	
-	print($ShotCooldown.time_left)
-	if shot_direction and shoot_ready:
-		print("I will shoot")
-		$BulletSpawn.position.x = shot_direction.x * BULLET_SPAWN_DISTANCE
-		$BulletSpawn.position.y = shot_direction.y * BULLET_SPAWN_DISTANCE
-		shoot()
-		print($ShotCooldown.time_left)
+	# if player shot and shot cooldown is finished then shoot
+	if bullet_direction and shot_ready:
+		shoot(bullet_direction)
 		$ShotCooldown.start()
-		print($ShotCooldown.time_left)
-		shoot_ready = false
+		shot_ready = false
 
-func shoot():
-	var bullet = BULLETPATH.instantiate()
+func shoot(direction):
+	$BulletSpawn.position = Vector2(direction.x * BULLET_SPAWN_DISTANCE,
+	direction.y * BULLET_SPAWN_DISTANCE)
+	var bullet_spawn = $BulletSpawn.global_position
 	
-	get_parent().add_child(bullet)
-	bullet.position = $BulletSpawn.global_position
-	 
-	
-	
-
+	bullet_shot.emit(BULLET_SCENE, bullet_spawn, direction)
+	$ShotCooldown.start()
 
 func _on_shot_cooldown_timeout():
-	print("Timer stopped")
-	shoot_ready = true
+	shot_ready = true
 	$ShotCooldown.stop()
