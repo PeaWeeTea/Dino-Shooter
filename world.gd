@@ -19,7 +19,6 @@ func _process(_delta):
 		get_tree().reload_current_scene()
 
 func _on_player_bullet_shot(bullet_scene, location, direction):
-	print("signal received")
 	var bullet = bullet_scene.instantiate()
 	bullet.global_position = location
 	bullet.get_child(0).rotation = direction.angle()

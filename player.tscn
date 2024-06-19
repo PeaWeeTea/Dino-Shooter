@@ -55,10 +55,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4vhrk"]
-size = Vector2(15, 15)
+size = Vector2(10, 15)
 
 [node name="player" type="CharacterBody2D"]
-collision_mask = 7
+collision_mask = 14
 script = ExtResource("1_18rgw")
 speed = 70.0
 
@@ -66,10 +66,9 @@ speed = 70.0
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_vmo61")
 animation = &"move_down"
-frame_progress = 0.271962
 
 [node name="HurtBox" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0.5)
+position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_4vhrk")
 
 [node name="Camera2D" type="Camera2D" parent="."]

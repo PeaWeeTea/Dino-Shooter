@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://g7b2jl8mjtga"]
+
+[ext_resource type="Texture2D" uid="uid://xxjjoji1pwco" path="res://assets/art/orc.png" id="1_sxrcx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obxbj"]
+atlas = ExtResource("1_sxrcx")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtlti"]
+atlas = ExtResource("1_sxrcx")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_il2ck"]
+atlas = ExtResource("1_sxrcx")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhjbc"]
+atlas = ExtResource("1_sxrcx")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nv4bi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_obxbj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtlti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_il2ck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhjbc")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pdhjr"]
+size = Vector2(14, 13)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 7
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_nv4bi")
+animation = &"walk"
+autoplay = "walk"
+frame = 3
+frame_progress = 1.0
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_pdhjr")
