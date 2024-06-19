@@ -2,8 +2,6 @@ extends CharacterBody2D
 
 signal bullet_shot(bullet_scene, location, direction)
 
-const BULLET_SCENE = preload("res://bullet.tscn")
-const BULLET_SPAWN_DISTANCE = 10
 var cooldown_ready = true
 
 @export var bullet_coyote_frames = 4
@@ -22,14 +20,9 @@ func _physics_process(delta):
 		$AnimatedSprite2D.play("move_right")
 	elif direction.x < 0:
 		$AnimatedSprite2D.play("move_left")
-	elif direction.y > 0:
-		$AnimatedSprite2D.play("move_down")
-	elif direction.y < 0:
-		$AnimatedSprite2D.play("move_up")
 
 	velocity = direction.normalized() * speed
 	move_and_slide()
-	
 
 
 func _process(delta):
@@ -60,6 +53,9 @@ func _process(delta):
 
 
 func shoot(direction):
+	const BULLET_SCENE = preload("res://bullet.tscn")
+	const BULLET_SPAWN_DISTANCE = 10
+	
 	$BulletSpawn.position = Vector2(direction.x * BULLET_SPAWN_DISTANCE,
 	direction.y * BULLET_SPAWN_DISTANCE)
 	var bullet_spawn = $BulletSpawn.global_position
