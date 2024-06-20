@@ -1,16 +1,19 @@
 extends Area2D
 
-@onready var direction = Vector2.from_angle($BulletDirection.rotation)
+@onready var sprite = $Projectile
 
-@export var speed = 300
+var travelled_distance = 0
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	position += direction * speed * delta
+	const SPEED = 300
+	const RANGE = 500
+	var direction = Vector2.RIGHT.rotated(rotation)
+	position += direction * SPEED * delta
 	
-
-
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	queue_free()
+	travelled_distance += SPEED * delta
+	if travelled_distance >= RANGE:
+		queue_free()
 
 
 func _on_body_entered(body):
@@ -18,3 +21,6 @@ func _on_body_entered(body):
 	queue_free()
 	if body.has_method("take_damage"):
 		body.take_damage()
+
+func _process(delta):
+	sprite.rotation = -rotation

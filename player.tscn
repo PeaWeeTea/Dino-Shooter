@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d2ch6i0cb7qvv"]
+[gd_scene load_steps=8 format=3 uid="uid://d2ch6i0cb7qvv"]
 
 [ext_resource type="Texture2D" uid="uid://s3ca411nm7yx" path="res://assets/art/Dino.png" id="1_3lu0f"]
 [ext_resource type="Script" path="res://player.gd" id="1_18rgw"]
+[ext_resource type="PackedScene" uid="uid://4dx8fbvpsacl" path="res://gun.tscn" id="3_8psew"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ff2vp"]
 atlas = ExtResource("1_3lu0f")
@@ -52,6 +53,8 @@ shape = SubResource("RectangleShape2D_4vhrk")
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
+
+[node name="Gun" parent="." instance=ExtResource("3_8psew")]
 
 [node name="BulletSpawn" type="Marker2D" parent="."]
 position = Vector2(15, 0)

@@ -4,25 +4,18 @@
 [ext_resource type="Texture2D" uid="uid://bfpjrkp0g7aul" path="res://assets/art/bullet.png" id="2_2kefc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j4p8h"]
-radius = 3.0
+radius = 4.0
 
 [node name="Bullet" type="Area2D"]
+top_level = true
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_g2rav")
-speed = 200
 
-[node name="BulletDirection" type="Marker2D" parent="."]
-unique_name_in_owner = true
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Projectile" type="Sprite2D" parent="."]
 texture = ExtResource("2_2kefc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_j4p8h")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-scale = Vector2(0.3, 0.3)
-
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
