@@ -42,10 +42,11 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pdhjr"]
 size = Vector2(14, 13)
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 8
 collision_mask = 15
 script = ExtResource("1_lsunl")
+speed = 30.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_nv4bi")

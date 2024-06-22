@@ -6,7 +6,7 @@ var travelled_distance = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	const SPEED = 300
+	const SPEED = 200
 	const RANGE = 500
 	var direction = Vector2.RIGHT.rotated(rotation)
 	position += direction * SPEED * delta
